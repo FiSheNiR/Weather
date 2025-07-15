@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: weather_docker_compose
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: weather
+      POSTGRES_PASSWORD: weather
+      POSTGRES_DB: weather
+      #POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres_data_weather:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # Tomcat с Java-приложением
+  tomcat:
+    image: tomcat:10.0
+    container_name: mytomcat
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/usr/local/tomcat/webapps
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres_data_weather:
