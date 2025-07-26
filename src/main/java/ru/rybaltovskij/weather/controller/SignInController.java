@@ -38,6 +38,7 @@ public class SignInController {
         if (sessionId.isPresent()) {
             Cookie sessionCookie = new Cookie("SESSION_ID", sessionId.get().toString());
             sessionCookie.setPath("/");
+            sessionCookie.setMaxAge(60*60);
             response.addCookie(sessionCookie);
         }
         return "redirect:/";

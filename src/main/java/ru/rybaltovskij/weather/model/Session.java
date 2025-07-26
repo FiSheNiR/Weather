@@ -3,7 +3,7 @@ package ru.rybaltovskij.weather.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -23,5 +23,5 @@ public class Session {
     private User userId;
 
     @Column(name = "expires_at")
-    private Date expiresAt;
+    private LocalDateTime expiresAt;
 }
