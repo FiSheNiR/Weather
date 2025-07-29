@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS weather;
+
 CREATE TABLE weather.users (
     id SERIAL PRIMARY KEY,
     login VARCHAR(120) NOT NULL,
