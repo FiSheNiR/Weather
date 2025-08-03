@@ -5,8 +5,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.util.WebUtils;
+import ru.rybaltovskij.weather.context.RequestContextHolder;
 import ru.rybaltovskij.weather.model.Session;
 import ru.rybaltovskij.weather.service.SessionService;
 
@@ -26,10 +28,17 @@ public class AuthInterceptor implements HandlerInterceptor {
             String sessionId = cookie.getValue();
             Optional<Session> session = sessionService.getSessionById(UUID.fromString(sessionId));
             if (session.isPresent()) {
+                Session currentSession = session.get();
+                RequestContextHolder.setSessionId(currentSession.getId());
                 return true;
             }
         }
+        RequestContextHolder.clear();
         response.sendRedirect("/signIn");
         return false;
+    }
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        RequestContextHolder.clear();
     }
 }

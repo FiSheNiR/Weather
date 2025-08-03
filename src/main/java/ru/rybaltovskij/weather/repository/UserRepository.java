@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.rybaltovskij.weather.model.User;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

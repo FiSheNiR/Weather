@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import ru.rybaltovskij.weather.dto.OpenWeatherCityResponseDto;
 import ru.rybaltovskij.weather.dto.OpenWeatherGeoResponseDto;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,20 +20,18 @@ public class OpenWeatherService {
 
     private final String apiKey = "8040a69cb01b85428584fe1e808d4aa6";
 
-    public void getGeoByCityName(String city) {
+    public List<OpenWeatherGeoResponseDto> getGeoByCityName(String city) {
         String url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + apiKey;
         String jsonResponse = restTemplate.getForObject(url, String.class);
-        System.out.println(jsonResponse);
         List<OpenWeatherGeoResponseDto> openWeatherGeoResponseDto = parseOpenWeatherGeoResponse(jsonResponse);
-        System.out.println(openWeatherGeoResponseDto);
+        return openWeatherGeoResponseDto;
     }
 
-    public void getWeatherByCoordinates(String latitude, String longitude) {
+    public OpenWeatherCityResponseDto getWeatherByCoordinates(BigDecimal latitude, BigDecimal longitude) {
         String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey + "&units=metric";
         String jsonResponse = restTemplate.getForObject(url, String.class);
-        System.out.println(jsonResponse);
         OpenWeatherCityResponseDto openWeatherCityResponseDto = parseOpenWeatherCityResponse(jsonResponse);
-        System.out.println(openWeatherCityResponseDto);
+        return openWeatherCityResponseDto;
     }
 
     private List<OpenWeatherGeoResponseDto> parseOpenWeatherGeoResponse(String response) {
@@ -51,8 +50,8 @@ public class OpenWeatherService {
             throw new RuntimeException("Ошибка парсинга JSON", e);
         }
 
-        double longitude = root.path("coord").path("lon").asDouble();
-        double latitude = root.path("coord").path("lat").asDouble();
+        BigDecimal longitude = BigDecimal.valueOf(root.path("coord").path("lon").asDouble());
+        BigDecimal latitude = BigDecimal.valueOf(root.path("coord").path("lat").asDouble());
 
         JsonNode weatherNode = root.path("weather");
         if (weatherNode.isEmpty()) {

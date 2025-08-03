@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import ru.rybaltovskij.weather.model.Session;
 import ru.rybaltovskij.weather.model.User;
 import ru.rybaltovskij.weather.repository.SessionRepository;
+import ru.rybaltovskij.weather.repository.UserRepository;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,8 +37,8 @@ public class SessionService {
         return sessionRepository.findById(sessionId);
     }
 
-    public String getUserBySession(UUID sessionId) {
-        return sessionRepository.findUserLoginBySessionId(sessionId);
+    public User getUserBySession(UUID sessionId) {
+        return sessionRepository.findUserBySessionId(sessionId);
     }
 
     public void deleteSession(UUID sessionId) {

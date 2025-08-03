@@ -2,6 +2,8 @@ package ru.rybaltovskij.weather.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -10,8 +12,8 @@ import lombok.*;
 @ToString
 public class OpenWeatherCityResponseDto {
 
-    private double longitude;
-    private double latitude;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
 
     private String description;
     private String icon;

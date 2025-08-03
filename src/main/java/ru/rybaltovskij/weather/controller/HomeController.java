@@ -6,27 +6,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import ru.rybaltovskij.weather.dto.OpenWeatherCityResponseDto;
+import ru.rybaltovskij.weather.model.User;
+import ru.rybaltovskij.weather.service.LocationService;
 import ru.rybaltovskij.weather.service.SessionService;
 import ru.rybaltovskij.weather.service.OpenWeatherService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
 public class HomeController {
     @Autowired
-    SessionService sessionService;
-
-    @Autowired
-    OpenWeatherService openWeatherService;
+    LocationService locationService;
 
     @GetMapping
-    public String home(@CookieValue(name = "SESSION_ID", required = false) String sessionId, Model model) {
-        String username = String.
-                valueOf(sessionService.
-                        getUserBySession(UUID.fromString(sessionId)));
-        model.addAttribute("username", username);
-        openWeatherService.getWeatherByCoordinates("53.9", "27.5667");
-        openWeatherService.getGeoByCityName("Moscow");
+    public String home(Model model) {
+        List<OpenWeatherCityResponseDto> weather = locationService.getAllUserLocations();
+        model.addAttribute("weatherList", weather);
         return "index";
     }
 }

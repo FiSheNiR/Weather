@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @ToString
@@ -14,9 +16,9 @@ public class OpenWeatherGeoResponseDto {
     @JsonProperty("name")
     private String cityName;
     @JsonProperty("lat")
-    private double latitude;
+    private BigDecimal latitude;
     @JsonProperty("lon")
-    private double longitude;
+    private BigDecimal longitude;
     @JsonProperty("country")
     private String country;
     @JsonProperty("state")

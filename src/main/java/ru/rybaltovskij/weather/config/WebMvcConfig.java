@@ -42,4 +42,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/signIn", "/signUp","/signOut");
 
     }
+
 }

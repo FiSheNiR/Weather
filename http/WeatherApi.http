@@ -11,4 +11,4 @@ https://api.openweathermap.org/data/2.5/weather?q=San Francisco&APPID=8040a69cb0
 https://api.openweathermap.org/data/2.5/weather?lat=53.9&lon=27.5667&appid=8040a69cb01b85428584fe1e808d4aa6
 
 ###
-http://api.openweathermap.org/geo/1.0/direct?q=Moscow&limit=5&appid=8040a69cb01b85428584fe1e808d4aa6
+http://api.openweathermap.org/geo/1.0/direct?q=Tbilisi&limit=5&appid=8040a69cb01b85428584fe1e808d4aa6
