@@ -18,7 +18,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     List<Location> findAllByUserId(User userId);
 
     @Modifying
-    @Transactional
     @Query("DELETE FROM Location l WHERE l.userId = :user " +
             "AND ABS(l.latitude - :latitude) < 0.002 " +
             "AND ABS(l.longitude - :longitude) < 0.002")

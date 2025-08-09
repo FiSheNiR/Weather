@@ -1,5 +1,6 @@
 package ru.rybaltovskij.weather.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,11 +10,11 @@ import ru.rybaltovskij.weather.model.Location;
 import ru.rybaltovskij.weather.service.LocationService;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/location")
 public class LocationController {
 
-    @Autowired
-    private LocationService locationService;
+    private final LocationService locationService;
 
     @PostMapping
     public String addLocation(@ModelAttribute("location") LocationRequestDto location) {

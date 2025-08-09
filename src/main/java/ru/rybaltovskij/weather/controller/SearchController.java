@@ -1,5 +1,6 @@
 package ru.rybaltovskij.weather.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +15,11 @@ import ru.rybaltovskij.weather.service.OpenWeatherService;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/search")
 public class SearchController {
 
-    @Autowired
-    OpenWeatherService openWeatherService;
+    private final OpenWeatherService openWeatherService;
 
     @GetMapping
     public String search(@RequestParam("location") String location, Model model) {

@@ -20,7 +20,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./app:/usr/local/tomcat/webapps
+      - ./app/ROOT.war:/usr/local/tomcat/webapps/ROOT.war
+    env_file:
+      - .env.local
     depends_on:
       - postgres
     restart: unless-stopped

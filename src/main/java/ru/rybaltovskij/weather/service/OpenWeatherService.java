@@ -3,6 +3,7 @@ package ru.rybaltovskij.weather.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.rybaltovskij.weather.dto.OpenWeatherCityResponseDto;
@@ -18,20 +19,21 @@ public class OpenWeatherService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final String apiKey = "8040a69cb01b85428584fe1e808d4aa6";
+    @Value("${api.key}")
+    private String apiKey;
 
     public List<OpenWeatherGeoResponseDto> getGeoByCityName(String city) {
         String url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + apiKey;
         String jsonResponse = restTemplate.getForObject(url, String.class);
-        List<OpenWeatherGeoResponseDto> openWeatherGeoResponseDto = parseOpenWeatherGeoResponse(jsonResponse);
-        return openWeatherGeoResponseDto;
+        return parseOpenWeatherGeoResponse(jsonResponse);
     }
 
-    public OpenWeatherCityResponseDto getWeatherByCoordinates(BigDecimal latitude, BigDecimal longitude) {
+    public OpenWeatherCityResponseDto getWeatherByCoordinates(BigDecimal latitude, BigDecimal longitude, String city) {
         String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey + "&units=metric";
         String jsonResponse = restTemplate.getForObject(url, String.class);
-        OpenWeatherCityResponseDto openWeatherCityResponseDto = parseOpenWeatherCityResponse(jsonResponse);
-        return openWeatherCityResponseDto;
+        OpenWeatherCityResponseDto openWeatherGeoResponseDto = parseOpenWeatherCityResponse(jsonResponse);
+        openWeatherGeoResponseDto.setCity(city);
+        return openWeatherGeoResponseDto;
     }
 
     private List<OpenWeatherGeoResponseDto> parseOpenWeatherGeoResponse(String response) {

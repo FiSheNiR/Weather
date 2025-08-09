@@ -17,11 +17,10 @@ public class SessionCleanupScheduler {
     @Autowired
     private SessionRepository sessionRepository;
 
-    @Scheduled(fixedRate = 3600000) // 1 час
+    @Scheduled(fixedRate = 3600000)
     @Transactional
     public void cleanupExpiredSessions() {
         log.info("Запуск очистки сессий...");
-        System.out.println("Очистка");
         LocalDateTime now = LocalDateTime.now();
         int deleted = sessionRepository.deleteByExpiresAtBefore(now);
         if (deleted > 0) {

@@ -1,6 +1,7 @@
 package ru.rybaltovskij.weather.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.rybaltovskij.weather.model.Session;
@@ -14,12 +15,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class SessionService {
 
-    @Autowired
-    private SessionRepository sessionRepository;
+    private final SessionRepository sessionRepository;
 
+    @Transactional
     public UUID createNewSession(User user) {
         sessionRepository.deleteByUserId(user);
         UUID uuid = UUID.randomUUID();
@@ -41,6 +42,7 @@ public class SessionService {
         return sessionRepository.findUserBySessionId(sessionId);
     }
 
+    @Transactional
     public void deleteSession(UUID sessionId) {
         sessionRepository.deleteById(sessionId);
     }

@@ -20,9 +20,9 @@
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
 
-            <!-- Указываем, что форма привязана к объекту userForm -->
+
             <form th:action="@{/signUp}" method="post" th:object="${newUser}">
-                <!-- Поле для имени пользователя -->
+
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text"
@@ -32,7 +32,7 @@
                            required />
                 </div>
 
-                <!-- Пароль -->
+
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password"
@@ -42,7 +42,7 @@
                            required />
                 </div>
 
-                <!-- Повтор пароля -->
+
                 <div class="mb-3">
                     <label for="repeatPassword" class="form-label">Repeat password</label>
                     <input type="password"
@@ -52,10 +52,10 @@
                            required />
                 </div>
 
-                <!-- Кнопка отправки -->
+
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>
 
-                <!-- Ссылка на вход -->
+
                 <p class="mt-2 text-center">
                     Already have an account?
                     <a th:href="@{/signIn}">Sign in here</a>

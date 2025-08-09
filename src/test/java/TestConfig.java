@@ -31,7 +31,7 @@ public class TestConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // или NoOpPasswordEncoder, если не хочешь хешировать в тестах
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

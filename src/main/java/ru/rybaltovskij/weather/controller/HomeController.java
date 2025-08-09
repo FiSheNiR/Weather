@@ -1,5 +1,6 @@
 package ru.rybaltovskij.weather.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,11 @@ import ru.rybaltovskij.weather.service.OpenWeatherService;
 import java.util.List;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Controller
 public class HomeController {
-    @Autowired
-    LocationService locationService;
+
+    private final LocationService locationService;
 
     @GetMapping
     public String home(Model model) {

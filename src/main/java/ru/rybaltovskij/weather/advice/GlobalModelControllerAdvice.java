@@ -2,6 +2,7 @@ package ru.rybaltovskij.weather.advice;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,9 +16,10 @@ import ru.rybaltovskij.weather.service.SessionService;
 import java.util.UUID;
 
 @ControllerAdvice
+@RequiredArgsConstructor
 public class GlobalModelControllerAdvice {
-    @Autowired
-    SessionService sessionService;
+
+    private final SessionService sessionService;
 
     @ModelAttribute
     public void addUsernameToModel(WebRequest webRequest, Model model) {
@@ -28,7 +30,7 @@ public class GlobalModelControllerAdvice {
         if (sessionId != null) {
             User user = sessionService.getUserBySession(sessionId);
             if (user != null) {
-                username = user.getLogin(); // или getUsername(), в зависимости от имени метода в User
+                username = user.getLogin();
             }
         }
 

@@ -2,6 +2,7 @@ package ru.rybaltovskij.weather.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -13,11 +14,11 @@ import ru.rybaltovskij.weather.service.UserService;
 import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/signOut")
 public class SignOutController {
 
-    @Autowired
-    private SessionService sessionService;
+    private final SessionService sessionService;
 
     @GetMapping
     public String signOut(@CookieValue(name = "SESSION_ID", required = false) String sessionId, HttpServletResponse httpServletResponse) {

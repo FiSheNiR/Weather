@@ -17,10 +17,10 @@ public class FlywayConfig {
     public Flyway flyway(@Qualifier("dataSource") DataSource dataSource) {
         Flyway flyway = Flyway.configure()
                 .dataSource(dataSource)
-                .locations("classpath:db/migration")// где лежат миграции
+                .locations("classpath:db/migration")
                 .load();
 
-        flyway.migrate();// применяем миграции при старте
+        flyway.migrate();
         return flyway;
     }
 
