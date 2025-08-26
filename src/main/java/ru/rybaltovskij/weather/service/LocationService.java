@@ -22,7 +22,7 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
     private final OpenWeatherService openWeatherService;
-    private  final SessionService sessionService;
+    private final SessionService sessionService;
 
     public List<OpenWeatherCityResponseDto> getAllUserLocations() {
         UUID sessionId = RequestContextHolder.getSessionId();

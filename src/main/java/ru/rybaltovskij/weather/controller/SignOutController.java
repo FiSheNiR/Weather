@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.rybaltovskij.weather.service.SessionService;
 import ru.rybaltovskij.weather.service.UserService;
+import ru.rybaltovskij.weather.util.CookieUtil;
 
 import java.util.UUID;
 
@@ -19,14 +20,12 @@ import java.util.UUID;
 public class SignOutController {
 
     private final SessionService sessionService;
+    private final CookieUtil cookieUtil;
 
     @GetMapping
     public String signOut(@CookieValue(name = "SESSION_ID", required = false) String sessionId, HttpServletResponse httpServletResponse) {
         sessionService.deleteSession(UUID.fromString(sessionId));
-        Cookie clearCookie = new Cookie("SESSION_ID", null);
-        clearCookie.setPath("/");
-        clearCookie.setMaxAge(0);
-        httpServletResponse.addCookie(clearCookie);
+        httpServletResponse.addCookie(cookieUtil.getEmptyCookie());
         return "redirect:/signIn";
     }
 }

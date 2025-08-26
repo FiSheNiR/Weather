@@ -14,9 +14,6 @@ import java.util.UUID;
 
 @Repository
 public interface SessionRepository extends JpaRepository<Session, UUID> {
-    @Modifying(flushAutomatically = true, clearAutomatically = true)
-    @Query("DELETE FROM Session s WHERE s.userId = :user")
-    void deleteByUserId(@Param("user") User user);
 
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("DELETE FROM Session s WHERE s.expiresAt < :now")
@@ -24,4 +21,6 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
 
     @Query("SELECT s.userId FROM Session s WHERE s.id = :sessionId")
     User findUserBySessionId(@Param("sessionId") UUID sessionId);
+
+    void deleteByUserId(User user);
 }

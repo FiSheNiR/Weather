@@ -2,13 +2,10 @@ package ru.rybaltovskij.weather.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.rybaltovskij.weather.model.Session;
 import ru.rybaltovskij.weather.model.User;
 import ru.rybaltovskij.weather.repository.SessionRepository;
-import ru.rybaltovskij.weather.repository.UserRepository;
-
 
 import java.time.LocalDateTime;
 import java.util.Optional;

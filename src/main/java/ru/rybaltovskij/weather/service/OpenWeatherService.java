@@ -3,9 +3,11 @@ package ru.rybaltovskij.weather.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.rybaltovskij.weather.dto.OpenWeatherCityResponseDto;
 import ru.rybaltovskij.weather.dto.OpenWeatherGeoResponseDto;
 
@@ -23,15 +25,26 @@ public class OpenWeatherService {
     private String apiKey;
 
     public List<OpenWeatherGeoResponseDto> getGeoByCityName(String city) {
-        String url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + apiKey;
+        String url = UriComponentsBuilder
+                .fromUriString("http://api.openweathermap.org/geo/1.0/direct")
+                .queryParam("q", city)
+                .queryParam("limit", 5)
+                .queryParam("appid", apiKey)
+                .toUriString();
         String jsonResponse = restTemplate.getForObject(url, String.class);
         return parseOpenWeatherGeoResponse(jsonResponse);
     }
 
     public OpenWeatherCityResponseDto getWeatherByCoordinates(BigDecimal latitude, BigDecimal longitude, String city) {
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey + "&units=metric";
+        String url = UriComponentsBuilder
+                .fromUriString("https://api.openweathermap.org/data/2.5/weather")
+                .queryParam("lat", latitude)
+                .queryParam("lon", longitude)
+                .queryParam("appid", apiKey)
+                .queryParam("units", "metric")
+                .toUriString();
         String jsonResponse = restTemplate.getForObject(url, String.class);
-        OpenWeatherCityResponseDto openWeatherGeoResponseDto = parseOpenWeatherCityResponse(jsonResponse);
+        OpenWeatherCityResponseDto openWeatherGeoResponseDto = parseOpenWeatherCityResponseWithMapper(jsonResponse);
         openWeatherGeoResponseDto.setCity(city);
         return openWeatherGeoResponseDto;
     }
@@ -44,40 +57,11 @@ public class OpenWeatherService {
         }
     }
 
-    private OpenWeatherCityResponseDto parseOpenWeatherCityResponse(String response) {
-        JsonNode root = null;
+    private OpenWeatherCityResponseDto parseOpenWeatherCityResponseWithMapper(String response) {
         try {
-            root = objectMapper.readTree(response);
+            return objectMapper.readValue(response, OpenWeatherCityResponseDto.class);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Ошибка парсинга JSON", e);
+            throw new RuntimeException(e);
         }
-
-        BigDecimal longitude = BigDecimal.valueOf(root.path("coord").path("lon").asDouble());
-        BigDecimal latitude = BigDecimal.valueOf(root.path("coord").path("lat").asDouble());
-
-        JsonNode weatherNode = root.path("weather");
-        if (weatherNode.isEmpty()) {
-            throw new RuntimeException("Нет данных о погоде");
-        }
-        String description = weatherNode.get(0).path("description").asText();
-        String icon = weatherNode.get(0).path("icon").asText();
-
-        double temperature = root.path("main").path("temp").asDouble();
-        double feelsLike = root.path("main").path("feels_like").asDouble();
-        int humidity = root.path("main").path("humidity").asInt();
-        String country = root.path("sys").path("country").asText();
-        String city = root.path("name").asText();
-
-        return OpenWeatherCityResponseDto.builder()
-                .longitude(longitude)
-                .latitude(latitude)
-                .description(description)
-                .icon(icon)
-                .temperature(temperature)
-                .feelsLikeTemperature(feelsLike)
-                .humidity(humidity)
-                .country(country)
-                .city(city)
-                .build();
     }
 }

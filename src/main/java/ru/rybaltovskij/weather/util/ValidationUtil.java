@@ -21,10 +21,13 @@ public class ValidationUtil {
         }
     }
     private void validatePassword(String password, String confirmPassword) {
+        if (password == null || password.trim().isEmpty()) {
+            throw new UnavailablePasswordException("Password is empty");
+        }
         if (!password.equals(confirmPassword)) {
             throw new UnavailablePasswordException("Passwords do not match");
         }
-        if (password.length() < 4 || password.length() > 16) {
+        if (password.length() < 4 || password.length() > 50) {
             throw new UnavailablePasswordException("Password length must be between 4 and 50");
         }
     }

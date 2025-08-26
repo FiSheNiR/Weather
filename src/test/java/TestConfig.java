@@ -44,10 +44,10 @@ public class TestConfig {
     public Flyway flyway(DataSource dataSource) {
         Flyway flyway = Flyway.configure()
                 .dataSource(dataSource)
-                .locations("classpath:db/migration") // где лежат миграции
+                .locations("classpath:db/migration")
                 .load();
 
-        flyway.migrate();// применяем миграции при старте
+        flyway.migrate();
         return flyway;
     }
 
@@ -78,7 +78,7 @@ public class TestConfig {
         properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
-        properties.put("hibernate.hbm2ddl.auto", "none"); // отключаем авто-ddl
+        properties.put("hibernate.hbm2ddl.auto", "none");
         return properties;
     }
 }

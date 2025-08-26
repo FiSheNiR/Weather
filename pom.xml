@@ -138,7 +138,6 @@
       <artifactId>mapstruct</artifactId>
       <version>1.6.2</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok-mapstruct-binding</artifactId>

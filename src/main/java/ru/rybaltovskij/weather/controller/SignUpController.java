@@ -21,7 +21,6 @@ import ru.rybaltovskij.weather.util.ValidationUtil;
 public class SignUpController {
 
     private final UserService userService;
-
     private final ValidationUtil validationUtil;
 
     @GetMapping
